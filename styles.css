@@ -1,0 +1,27 @@
+@font-face {
+  font-family: quicksand;
+  src: url(Quicksand/Quicksand-VariableFont_wght.ttf);
+}
+
+html, body {
+  font-family: quicksand, sans-serif;
+  font-size: 2rem;
+  margin: 0;
+  height: 100%;
+  width: 100%;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+}
+
+header {
+  background-color: white;
+  height: 120px;
+}
+
+.main-container {
+  background-color: grey;
+  height: 100%;
+}
