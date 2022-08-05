@@ -16,6 +16,13 @@ body {
   flex-direction: column;
 }
 
+header,
+.main-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 header {
   background-color: white;
   height: 120px;
@@ -24,4 +31,24 @@ header {
 .main-container {
   background-color: grey;
   height: 100%;
+}
+
+.tiles-container {
+  display: grid;
+  grid-template: repeat(3, 1fr) / repeat(3, 1fr);
+  height: min(50vw, 50vh);
+  width: min(50vw, 50vh);
+  gap: 8px;
+}
+
+.tile {
+  background-color: white;
+}
+
+.tile:nth-child(2n) {
+  background-color: rgb(54, 54, 54);
+}
+
+.tile:hover {
+  background-color: rgb(125, 213, 248);
 }
