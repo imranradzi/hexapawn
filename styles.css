@@ -42,7 +42,10 @@ header {
 }
 
 .tile {
-  background-color: white;
+  background-color: rgb(212, 212, 212);
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .tile:nth-child(2n) {
@@ -52,3 +55,4 @@ header {
 .tile:hover {
   background-color: rgb(125, 213, 248);
 }
+
