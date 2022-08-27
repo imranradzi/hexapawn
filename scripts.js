@@ -5,13 +5,62 @@ const domElements = (() => {
   return {tilesNodes};
 })();
 
+const pawn = (name, color, row, column) => {
+  const pawnName = name;
+  const pawnColor = color;
+  let pawnRow = row;
+  let pawnColumn = column;
+
+  const getName = () => {
+    return pawnName;
+  }
+
+  const getColor = () => {
+    return pawnColor;
+  }
+
+  const getRow = () => {
+    return pawnRow;
+  }
+
+  const getColumn = () => {
+    return pawnColumn;
+  }
+  
+  const pawnImg = document.createElement('img');
+
+  if (color === 'black') {
+    pawnImg.setAttribute('src', 'svg/bpawn.svg');
+  } else if (color === 'white') {
+    pawnImg.setAttribute('src', 'svg/pawn.svg');
+  }
+
+  pawnImg.setAttribute('height', '50');
+  pawnImg.setAttribute('width', '50');
+  pawnImg.setAttribute('data-name', name);
+
+  const pawnMove = (newRow, newColumn) => {
+    pawnRow = newRow;
+    pawnColumn = newColumn;
+  }
+
+  return {getName, getColor,
+          getRow, getColumn,
+          pawnImg, pawnMove};
+}
+
+let bpawn1 = pawn('bpawn1', 'black', '3', 'a');
+let wpawn1 = pawn('wpawn1', 'white', '1', 'a')
+const pawnArr = {'bpawn1': bpawn1,
+                 'wpawn1': wpawn1};
+
 const gameFlow = (() => {
   let targetRow = '';
   let targetColumn = '';
   let targetPawn = '';
 
-  const displayTargetTile = () => {
-    console.log(targetRow, targetColumn);
+  const getTargetTile = () => {;
+    return [targetRow, targetColumn];
   }
   
   const changeTargetTile = (row, column) => {
@@ -19,16 +68,16 @@ const gameFlow = (() => {
     targetColumn = column;
   }
 
-  const displayTargetPawn = () => {
-    console.log(targetPawn);
+  const getTargetPawn = () => {
+    return targetPawn;
   }
 
   const changeTargetPawn = (pawn) => {
     targetPawn = pawn;
   }
 
-  return { displayTargetTile, changeTargetTile,
-           displayTargetPawn, changeTargetPawn };
+  return { getTargetTile, changeTargetTile,
+           getTargetPawn, changeTargetPawn };
 })();
 
 const player = (name, color) => {
@@ -41,42 +90,19 @@ const player = (name, color) => {
   return {getName, getColor};
 };
 
-const pawn = (name, color, row, column) => {
-  const getName = () => {
-    return name;
-  }
-  const pawnImg = document.createElement('img');
-
-  if (color === 'black') {
-    pawnImg.setAttribute('src', 'svg/bpawn.svg');
-  } else if (color === 'white') {
-    pawnImg.setAttribute('src', 'svg/pawn.svg');
-  }
-  pawnImg.setAttribute('height', '50');
-  pawnImg.setAttribute('width', '50');
-  pawnImg.setAttribute('data-name', name);
-
-  const getColor = () => {
-    return color;
-  }
-
-  const pawnMove = (newRow, newColumn) => {
-    row = newRow;
-    column = newColumn; 
-  }
-
-  return {getName, getColor, row, column, pawnImg};
-};
-
-let bpawn1 = pawn('bpawn1', 'black', '3', 'a');
-let wpawn1 = pawn('wpawn1', 'white', '1', 'a')
-const pawnArr = [bpawn1, wpawn1];
-
 const gameBoard = (() => {
   const displayPawns = () => {
-    for (const pawn of pawnArr) {
+    // clearing all pawns from the tiles
+    for (const tile of tilesArr) {
+      while (tile.firstChid) {
+        tile.removeChild(tile.lastChild);
+      }
+    }
+
+    // putting pawns in their tiles
+    for (const pawn in pawnArr) {
       document
-      .querySelector(`[data-row="${pawn.row}"][data-column="${pawn.column}"]`).appendChild(pawn.pawnImg);
+      .querySelector(`[data-row="${pawnArr[pawn].getRow()}"][data-column="${pawnArr[pawn].getColumn()}"]`).appendChild(pawnArr[pawn].pawnImg);
     }}
 
   const tilesArr = Array
@@ -84,21 +110,32 @@ const gameBoard = (() => {
   
   for (const tile of tilesArr) {
     tile.addEventListener('click', () => {
-    gameFlow
-    .changeTargetTile(
-      tile.getAttribute('data-row'),
-      tile.getAttribute('data-column'));
+      gameFlow
+      .changeTargetTile(
+        tile.getAttribute('data-row'),
+        tile.getAttribute('data-column'));
 
-    gameFlow.displayTargetTile();
+      console.log(gameFlow.getTargetTile());
 
-    // this checks if the tile has a pawnimg contained
-    // within it
-    let clickedPawn = tile.querySelector('img');
-    if (!!clickedPawn) {
-      gameFlow.changeTargetPawn(clickedPawn.getAttribute('data-name'));
-    }
-
-    gameFlow.displayTargetPawn();
+      // this checks if the tile has a pawnimg contained
+      // within it
+      let clickedPawn = tile.querySelector('img');
+      if (!!clickedPawn) {
+        gameFlow.changeTargetPawn(clickedPawn.getAttribute('data-name'));
+        console.log(gameFlow.getTargetPawn());
+      }
+      // if clicked tile has no pawn in it, and
+      // previously we clicked on a pawn,
+      // then it moves the pawn to the clicked tile
+      else if (clickedPawn === null &&
+        gameFlow.getTargetPawn() !== ''){
+        pawnArr[gameFlow.getTargetPawn()]
+          .pawnMove(`${gameFlow.getTargetTile()[0]}`,
+                    `${gameFlow.getTargetTile()[1]}`);
+        gameBoard.displayPawns();
+        gameFlow.changeTargetPawn('');
+        console.log(gameFlow.getTargetPawn());
+      }
     })
   }
   
