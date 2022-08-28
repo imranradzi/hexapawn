@@ -44,15 +44,32 @@ const pawn = (name, color, row, column) => {
     pawnColumn = newColumn;
   }
 
+  const calculateLegalMoves = () => {
+    // to fill in later
+  }
+
   return {getName, getColor,
           getRow, getColumn,
           pawnImg, pawnMove};
 }
 
-let bpawn1 = pawn('bpawn1', 'black', '3', 'a');
-let wpawn1 = pawn('wpawn1', 'white', '1', 'a')
-const pawnArr = {'bpawn1': bpawn1,
-                 'wpawn1': wpawn1};
+const pawns = (() => {
+  const abc = ['a', 'b', 'c'];
+  const list = {};
+  for (let i = 1; i < 4; i++) {
+    list[`bpawn${i}`] = pawn(`bpawn${i}`, 'black',
+    '3', abc[i - 1]);
+    list[`wpawn${i}`] = pawn(`wpawn${i}`, 'white',
+    '1', abc[i - 1]);
+  }
+
+  const getList = () => {
+    return list;
+  }
+
+  return { getList }
+})();
+
 
 const gameFlow = (() => {
   let targetRow = '';
@@ -100,9 +117,9 @@ const gameBoard = (() => {
     }
 
     // putting pawns in their tiles
-    for (const pawn in pawnArr) {
+    for (const pawn in pawns.getList()) {
       document
-      .querySelector(`[data-row="${pawnArr[pawn].getRow()}"][data-column="${pawnArr[pawn].getColumn()}"]`).appendChild(pawnArr[pawn].pawnImg);
+      .querySelector(`[data-row="${pawns.getList()[pawn].getRow()}"][data-column="${pawns.getList()[pawn].getColumn()}"]`).appendChild(pawns.getList()[pawn].pawnImg);
     }}
 
   const tilesArr = Array
@@ -129,7 +146,7 @@ const gameBoard = (() => {
       // then it moves the pawn to the clicked tile
       else if (clickedPawn === null &&
         gameFlow.getTargetPawn() !== ''){
-        pawnArr[gameFlow.getTargetPawn()]
+        pawns.getList()[gameFlow.getTargetPawn()]
           .pawnMove(`${gameFlow.getTargetTile()[0]}`,
                     `${gameFlow.getTargetTile()[1]}`);
         gameBoard.displayPawns();
