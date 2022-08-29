@@ -2,7 +2,7 @@ const domElements = (() => {
   const tilesNodes = document
             .querySelectorAll('div.tile');
 
-  return {tilesNodes};
+  return { tilesNodes };
 })();
 
 const pawn = (name, color, row, column) => {
@@ -44,13 +44,28 @@ const pawn = (name, color, row, column) => {
     pawnColumn = newColumn;
   }
 
+  // returns an array of tiles that 
+  // pawn can legally move to
   const calculateLegalMoves = () => {
-    // to fill in later
+    let pawnRowInt = parseInt(pawnRow);
+    let forwardRow = '';
+
+    if (getColor() === 'black' & pawnRow !== '1') {
+      forwardRow = pawnRowInt - 1;
+    } else if (getColor() === 'white' & pawnRow !== '3') {
+      forwardRow = pawnRowInt + 1;
+    }
+
+    return [`${forwardRow.toString()}${pawnColumn}`];
   }
 
-  return {getName, getColor,
-          getRow, getColumn,
-          pawnImg, pawnMove};
+  return { getName,
+           getColor,
+           getRow,
+           getColumn,
+           pawnImg,
+           pawnMove,
+           calculateLegalMoves };
 }
 
 const pawns = (() => {
@@ -77,7 +92,7 @@ const gameFlow = (() => {
   let targetPawn = '';
 
   const getTargetTile = () => {;
-    return [targetRow, targetColumn];
+    return `${targetRow}${targetColumn}`;
   }
   
   const changeTargetTile = (row, column) => {
@@ -93,8 +108,10 @@ const gameFlow = (() => {
     targetPawn = pawn;
   }
 
-  return { getTargetTile, changeTargetTile,
-           getTargetPawn, changeTargetPawn };
+  return { getTargetTile,
+           changeTargetTile,
+           getTargetPawn,
+           changeTargetPawn };
 })();
 
 const player = (name, color) => {
@@ -104,7 +121,7 @@ const player = (name, color) => {
   const getColor = () => {
     return color;
   }
-  return {getName, getColor};
+  return { getName, getColor };
 };
 
 const gameBoard = (() => {
@@ -143,9 +160,18 @@ const gameBoard = (() => {
       }
       // if clicked tile has no pawn in it, and
       // previously we clicked on a pawn,
+      // and if the clicked tile is in the list
+      // of valid legal moves for the pawn,
       // then it moves the pawn to the clicked tile
       else if (clickedPawn === null &&
-        gameFlow.getTargetPawn() !== ''){
+        gameFlow.getTargetPawn() !== ''
+        &&
+        pawns
+          .getList()[gameFlow.getTargetPawn()]
+          .calculateLegalMoves()
+          .includes(
+          gameFlow.getTargetTile() 
+          )) {
         pawns.getList()[gameFlow.getTargetPawn()]
           .pawnMove(`${gameFlow.getTargetTile()[0]}`,
                     `${gameFlow.getTargetTile()[1]}`);
@@ -156,7 +182,7 @@ const gameBoard = (() => {
     })
   }
   
-  return {displayPawns, tilesArr}
+  return { displayPawns, tilesArr }
 })();
 
 gameBoard.displayPawns();
