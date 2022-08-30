@@ -101,7 +101,11 @@ const pawns = (() => {
     return list;
   }
 
-  return { getList }
+  const removePawn = (pawnName) => {
+    delete list[pawnName];
+  }
+
+  return { getList, removePawn }
 })();
 
 
@@ -144,15 +148,18 @@ const player = (name, color) => {
 };
 
 const gameBoard = (() => {
-  const displayPawns = () => {
-    // clearing all pawns from the tiles
+  const tilesArr = Array
+  .from(domElements.tilesNodes);
+
+  const clearPawns = () => {
     for (const tile of tilesArr) {
-      while (tile.firstChid) {
+      while (tile.firstChild) {
         tile.removeChild(tile.lastChild);
       }
     }
+  }
 
-    // putting pawns in their tiles
+  const displayPawns = () => {
     let pawnList = pawns.getList();
     for (const pawn in pawns.getList()) {
 
@@ -164,9 +171,6 @@ const gameBoard = (() => {
       .appendChild(pawnList[pawn].pawnImg);
     }}
 
-  const tilesArr = Array
-    .from(domElements.tilesNodes);
-  
   for (const tile of tilesArr) {
     tile.addEventListener('click', () => {
       gameFlow
@@ -180,8 +184,32 @@ const gameBoard = (() => {
       // within it
       let clickedPawn = tile.querySelector('img');
       if (!!clickedPawn) {
-        gameFlow.changeTargetPawn(clickedPawn.getAttribute('data-name'));
-        console.log(gameFlow.getTargetPawn());
+        // if we clicked on a pawn,
+        // and we also previously clicked on a pawn,
+        // and the selected tile is a valid tile 
+        // for the previously clicked pawn,
+        // then the previously clicked pawn
+        // deletes the clicked pawn from existence
+        if (gameFlow.getTargetPawn() !== ''
+        &&
+        pawns
+          .getList()[gameFlow.getTargetPawn()]
+          .calculateLegalMoves()
+          .slice(1,2)
+          .includes(
+          gameFlow.getTargetTile() 
+          )) {
+          let clickedPawnName = clickedPawn.getAttribute('data-name');
+          pawns.removePawn(clickedPawnName);
+          pawns.getList()[gameFlow.getTargetPawn()]
+          .pawnMove(`${gameFlow.getTargetTile()[0]}`,
+                    `${gameFlow.getTargetTile()[1]}`);
+          gameBoard.clearPawns();
+          gameBoard.displayPawns();
+          gameFlow.changeTargetPawn('');
+        } else {
+            gameFlow.changeTargetPawn(clickedPawn.getAttribute('data-name'));
+        }
       }
 
       // if clicked tile has no pawn in it, and
@@ -192,15 +220,16 @@ const gameBoard = (() => {
       else if (clickedPawn === null &&
         gameFlow.getTargetPawn() !== ''
         &&
-        pawns
+        [pawns
           .getList()[gameFlow.getTargetPawn()]
-          .calculateLegalMoves()
+          .calculateLegalMoves()[0]]
           .includes(
           gameFlow.getTargetTile() 
           )) {
         pawns.getList()[gameFlow.getTargetPawn()]
           .pawnMove(`${gameFlow.getTargetTile()[0]}`,
                     `${gameFlow.getTargetTile()[1]}`);
+        gameBoard.clearPawns();
         gameBoard.displayPawns();
         gameFlow.changeTargetPawn('');
         console.log(gameFlow.getTargetPawn());
@@ -208,7 +237,9 @@ const gameBoard = (() => {
     })
   }
   
-  return { displayPawns, tilesArr }
+  return { displayPawns,
+           tilesArr,
+           clearPawns }
 })();
 
 gameBoard.displayPawns();
