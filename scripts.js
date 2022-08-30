@@ -56,7 +56,26 @@ const pawn = (name, color, row, column) => {
       forwardRow = pawnRowInt + 1;
     }
 
-    return [`${forwardRow.toString()}${pawnColumn}`];
+    const calculateForwardMove = () => {
+      return [`${forwardRow.toString()}${pawnColumn}`];
+    }
+
+    const calculateDiagonalMove = () => {
+      let diagonalColumn = [''];
+      if (pawnColumn === 'a' || pawnColumn === 'c') {
+        diagonalColumn = ['b'];
+      } else if (pawnColumn ){
+        diagonalColumn = ['a', 'c']
+      }
+
+      let moveableTile = [];
+      for (let i of diagonalColumn) {
+        moveableTile.push(`${forwardRow.toString()}${i}`);
+      }
+      return moveableTile;
+    }
+    
+    return calculateForwardMove().concat(calculateDiagonalMove());
   }
 
   return { getName,
@@ -134,9 +153,15 @@ const gameBoard = (() => {
     }
 
     // putting pawns in their tiles
+    let pawnList = pawns.getList();
     for (const pawn in pawns.getList()) {
+
+      let pawnTilePosition = `[data-row="${pawnList[pawn]
+        .getRow()}"][data-column="${pawnList[pawn].getColumn()}"]`;
+
       document
-      .querySelector(`[data-row="${pawns.getList()[pawn].getRow()}"][data-column="${pawns.getList()[pawn].getColumn()}"]`).appendChild(pawns.getList()[pawn].pawnImg);
+      .querySelector(pawnTilePosition)
+      .appendChild(pawnList[pawn].pawnImg);
     }}
 
   const tilesArr = Array
@@ -158,6 +183,7 @@ const gameBoard = (() => {
         gameFlow.changeTargetPawn(clickedPawn.getAttribute('data-name'));
         console.log(gameFlow.getTargetPawn());
       }
+
       // if clicked tile has no pawn in it, and
       // previously we clicked on a pawn,
       // and if the clicked tile is in the list
