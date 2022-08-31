@@ -44,8 +44,10 @@ const pawn = (name, color, row, column) => {
     pawnColumn = newColumn;
   }
 
-  // returns an array of tiles that 
-  // pawn can legally move to
+  /**
+   * returns an array of tiles that 
+   * pawn can legally move to
+   */ 
   const calculateLegalMoves = () => {
     let pawnRowInt = parseInt(pawnRow);
     let forwardRow = '';
@@ -64,7 +66,7 @@ const pawn = (name, color, row, column) => {
       let diagonalColumn = [''];
       if (pawnColumn === 'a' || pawnColumn === 'c') {
         diagonalColumn = ['b'];
-      } else if (pawnColumn ){
+      } else if (pawnColumn ) {
         diagonalColumn = ['a', 'c']
       }
 
@@ -75,7 +77,8 @@ const pawn = (name, color, row, column) => {
       return moveableTile;
     }
     
-    return calculateForwardMove().concat(calculateDiagonalMove());
+    return calculateForwardMove()
+            .concat(calculateDiagonalMove());
   }
 
   return { getName,
@@ -163,13 +166,15 @@ const gameBoard = (() => {
     let pawnList = pawns.getList();
     for (const pawn in pawns.getList()) {
 
-      let pawnTilePosition = `[data-row="${pawnList[pawn]
-        .getRow()}"][data-column="${pawnList[pawn].getColumn()}"]`;
+      let pawnTilePosition = `[data-row='${pawnList[pawn]
+        .getRow()}'][data-column='${pawnList[pawn]
+        .getColumn()}']`;
 
       document
       .querySelector(pawnTilePosition)
       .appendChild(pawnList[pawn].pawnImg);
-    }}
+    }
+  }
 
   for (const tile of tilesArr) {
     tile.addEventListener('click', () => {
@@ -184,21 +189,25 @@ const gameBoard = (() => {
       // within it
       let clickedPawn = tile.querySelector('img');
       if (!!clickedPawn) {
-        // if we clicked on a pawn,
-        // and we also previously clicked on a pawn,
-        // and the selected tile is a valid tile 
-        // for the previously clicked pawn,
-        // then the previously clicked pawn
-        // deletes the clicked pawn from existence
+        /**
+         * if we clicked on a pawn,
+         * and we also previously clicked on a pawn,
+         * and the selected tile is a valid tile 
+         * for the previously clicked pawn,
+         * then the previously clicked pawn
+         * deletes the clicked pawn from existence
+         */ 
+       // TODO: add condition that only allows pawns to eat enemy pawns
         if (gameFlow.getTargetPawn() !== ''
         &&
         pawns
           .getList()[gameFlow.getTargetPawn()]
           .calculateLegalMoves()
-          .slice(1,2)
+          .slice(1,3)
           .includes(
           gameFlow.getTargetTile() 
-          )) {
+          )
+         ) {
           let clickedPawnName = clickedPawn.getAttribute('data-name');
           pawns.removePawn(clickedPawnName);
           pawns.getList()[gameFlow.getTargetPawn()]
@@ -212,28 +221,31 @@ const gameBoard = (() => {
         }
       }
 
-      // if clicked tile has no pawn in it, and
-      // previously we clicked on a pawn,
-      // and if the clicked tile is in the list
-      // of valid legal moves for the pawn,
-      // then it moves the pawn to the clicked tile
-      else if (clickedPawn === null &&
-        gameFlow.getTargetPawn() !== ''
-        &&
-        [pawns
-          .getList()[gameFlow.getTargetPawn()]
-          .calculateLegalMoves()[0]]
-          .includes(
-          gameFlow.getTargetTile() 
-          )) {
+      /**
+       * if clicked tile has no pawn in it, and
+       * previously we clicked on a pawn,
+       * and if the clicked tile is in the list
+       * of valid legal moves for the pawn,
+       * then it moves the pawn to the clicked tile
+       */
+      else if (
+        clickedPawn === null 
+        && gameFlow.getTargetPawn() !== ''
+        && [pawns
+            .getList()[gameFlow.getTargetPawn()]
+            .calculateLegalMoves()[0]]
+            .includes(
+              gameFlow.getTargetTile() 
+            )
+        ) {
         pawns.getList()[gameFlow.getTargetPawn()]
-          .pawnMove(`${gameFlow.getTargetTile()[0]}`,
+             .pawnMove(`${gameFlow.getTargetTile()[0]}`,
                     `${gameFlow.getTargetTile()[1]}`);
         gameBoard.clearPawns();
         gameBoard.displayPawns();
         gameFlow.changeTargetPawn('');
         console.log(gameFlow.getTargetPawn());
-      }
+       }
     })
   }
   
