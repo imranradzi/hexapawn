@@ -134,6 +134,12 @@ const gameFlow = (() => {
     targetPawn = pawn;
   }
 
+  /**
+   * TODO: add turn based functionality
+   *       i.e., let white move first,
+   *       then black, etc.
+   */ 
+
   return { getTargetTile,
            changeTargetTile,
            getTargetPawn,
@@ -189,11 +195,13 @@ const gameBoard = (() => {
       // within it
       let clickedPawn = tile.querySelector('img');
       if (!!clickedPawn) {
+        let clickedPawnName = clickedPawn.getAttribute('data-name');
         /**
          * if we clicked on a pawn,
          * and we also previously clicked on a pawn,
          * and the selected tile is a valid tile 
          * for the previously clicked pawn,
+         * and the two pawns are opposite colours,
          * then the previously clicked pawn
          * deletes the clicked pawn from existence
          */ 
@@ -207,8 +215,13 @@ const gameBoard = (() => {
           .includes(
           gameFlow.getTargetTile() 
           )
-         ) {
-          let clickedPawnName = clickedPawn.getAttribute('data-name');
+          
+        /**
+         * checks if the first letter of the two pawns are 
+         * the same or not 
+         */
+        && gameFlow.getTargetPawn()[0] !== clickedPawnName[0]
+        ) {
           pawns.removePawn(clickedPawnName);
           pawns.getList()[gameFlow.getTargetPawn()]
           .pawnMove(`${gameFlow.getTargetTile()[0]}`,
