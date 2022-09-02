@@ -140,10 +140,37 @@ const gameFlow = (() => {
    *       then black, etc.
    */ 
 
+  const startGame = () => {
+    /**
+     * maybe start some loop
+     * with turns alternating
+     * between white and black
+     */
+  }
+
+  const endGame = () => {
+    /**
+     * terminates
+     * loop above
+     */
+  }
+
+  const checkWin = () => {
+    /**
+     * at the start (or maybe end)
+     * of every loop,
+     * check for winning (or losing)
+     * conditions
+     */
+  }
+
   return { getTargetTile,
            changeTargetTile,
            getTargetPawn,
-           changeTargetPawn };
+           changeTargetPawn,
+           startGame,
+           endGame,
+           checkWin };
 })();
 
 const player = (name, color) => {
