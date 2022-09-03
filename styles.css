@@ -56,3 +56,7 @@ header {
   background-color: rgb(125, 213, 248);
 }
 
+.tile.selected {
+  background-color: aqua;
+}
+

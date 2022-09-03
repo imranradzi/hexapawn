@@ -116,6 +116,7 @@ const gameFlow = (() => {
   let targetRow = '';
   let targetColumn = '';
   let targetPawn = '';
+  let isGameRunning = false;
 
   const getTargetTile = () => {;
     return `${targetRow}${targetColumn}`;
@@ -140,12 +141,21 @@ const gameFlow = (() => {
    *       then black, etc.
    */ 
 
+  const gameLoop = () => {
+    while (isGameRunning === true) {
+      /**
+       * execute turn based gameplay
+       * if game is running
+       */
+    }
+  }
+
   const startGame = () => {
     /**
-     * maybe start some loop
-     * with turns alternating
-     * between white and black
+     * sets isgamerunning to true
+     * starts gameloop
      */
+    isGameRunning = true;
   }
 
   const endGame = () => {
@@ -153,6 +163,7 @@ const gameFlow = (() => {
      * terminates
      * loop above
      */
+    isGameRunning = false;
   }
 
   const checkWin = () => {
@@ -186,6 +197,12 @@ const player = (name, color) => {
 const gameBoard = (() => {
   const tilesArr = Array
   .from(domElements.tilesNodes);
+
+  const clearIndicator = () => {
+    for (const tile of tilesArr) {
+      tile.classList.remove('selected');
+    }
+  }
 
   const clearPawns = () => {
     for (const tile of tilesArr) {
@@ -222,6 +239,7 @@ const gameBoard = (() => {
       // within it
       let clickedPawn = tile.querySelector('img');
       if (!!clickedPawn) {
+        tile.classList.add('selected');
         let clickedPawnName = clickedPawn.getAttribute('data-name');
         /**
          * if we clicked on a pawn,
@@ -231,8 +249,7 @@ const gameBoard = (() => {
          * and the two pawns are opposite colours,
          * then the previously clicked pawn
          * deletes the clicked pawn from existence
-         */ 
-       // TODO: add condition that only allows pawns to eat enemy pawns
+         */
         if (gameFlow.getTargetPawn() !== ''
         &&
         pawns
@@ -249,13 +266,14 @@ const gameBoard = (() => {
          */
         && gameFlow.getTargetPawn()[0] !== clickedPawnName[0]
         ) {
-          pawns.removePawn(clickedPawnName);
-          pawns.getList()[gameFlow.getTargetPawn()]
-          .pawnMove(`${gameFlow.getTargetTile()[0]}`,
-                    `${gameFlow.getTargetTile()[1]}`);
-          gameBoard.clearPawns();
-          gameBoard.displayPawns();
-          gameFlow.changeTargetPawn('');
+            pawns.removePawn(clickedPawnName);
+            pawns.getList()[gameFlow.getTargetPawn()]
+            .pawnMove(`${gameFlow.getTargetTile()[0]}`,
+                      `${gameFlow.getTargetTile()[1]}`);
+            gameBoard.clearPawns();
+            gameBoard.displayPawns();
+            gameFlow.changeTargetPawn('');
+            clearIndicator();
         } else {
             gameFlow.changeTargetPawn(clickedPawn.getAttribute('data-name'));
         }
@@ -284,6 +302,7 @@ const gameBoard = (() => {
         gameBoard.clearPawns();
         gameBoard.displayPawns();
         gameFlow.changeTargetPawn('');
+        clearIndicator();
         console.log(gameFlow.getTargetPawn());
        }
     })
