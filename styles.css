@@ -60,3 +60,7 @@ header {
   background-color: aqua;
 }
 
+.tile.possible-moves {
+  background-color: rgb(42, 144, 165);
+}
+

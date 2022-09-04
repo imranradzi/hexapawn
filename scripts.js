@@ -232,15 +232,50 @@ const gameBoard = (() => {
       .changeTargetTile(
         tile.getAttribute('data-row'),
         tile.getAttribute('data-column'));
+      
+      clearIndicator();
+      // console.log(gameFlow.getTargetTile());
 
-      console.log(gameFlow.getTargetTile());
+      let previousPawn = pawns
+        .getList()[gameFlow.getTargetPawn()];
 
       // this checks if the tile has a pawnimg contained
       // within it
       let clickedPawn = tile.querySelector('img');
+      
       if (!!clickedPawn) {
+
+        // removes highlighted previous possible tiles
+        if (!!previousPawn) {
+          for (const i of previousPawn.calculateLegalMoves()) {
+            document
+              .querySelector(`[data-row='${i[0]}'][data-column='${i[1]}']`)
+              .classList.remove('possible-moves');
+          }
+        }
+        
         tile.classList.add('selected');
         let clickedPawnName = clickedPawn.getAttribute('data-name');
+
+        let currentPawn = pawns
+            .getList()
+            [`${clickedPawnName}`];
+        
+        console.log(currentPawn
+          .calculateLegalMoves());
+
+        /**
+         * TODO: make sure actual possible tiles are highlighted,
+         * and remove highlighted tiles of previous pawn
+         */
+        for (const i of currentPawn.calculateLegalMoves()) {
+          document
+            .querySelector(`[data-row='${i[0]}'][data-column='${i[1]}']`)
+            .classList.add('possible-moves');
+        }
+
+        // console.log(previousPawn);
+
         /**
          * if we clicked on a pawn,
          * and we also previously clicked on a pawn,
@@ -252,8 +287,7 @@ const gameBoard = (() => {
          */
         if (gameFlow.getTargetPawn() !== ''
         &&
-        pawns
-          .getList()[gameFlow.getTargetPawn()]
+        previousPawn
           .calculateLegalMoves()
           .slice(1,3)
           .includes(
@@ -267,7 +301,7 @@ const gameBoard = (() => {
         && gameFlow.getTargetPawn()[0] !== clickedPawnName[0]
         ) {
             pawns.removePawn(clickedPawnName);
-            pawns.getList()[gameFlow.getTargetPawn()]
+            previousPawn
             .pawnMove(`${gameFlow.getTargetTile()[0]}`,
                       `${gameFlow.getTargetTile()[1]}`);
             gameBoard.clearPawns();
@@ -289,14 +323,18 @@ const gameBoard = (() => {
       else if (
         clickedPawn === null 
         && gameFlow.getTargetPawn() !== ''
-        && [pawns
-            .getList()[gameFlow.getTargetPawn()]
+        && [previousPawn
             .calculateLegalMoves()[0]]
             .includes(
               gameFlow.getTargetTile() 
             )
         ) {
-        pawns.getList()[gameFlow.getTargetPawn()]
+        for (const i of previousPawn.calculateLegalMoves()) {
+            document
+              .querySelector(`[data-row='${i[0]}'][data-column='${i[1]}']`)
+              .classList.remove('possible-moves');
+        }
+        previousPawn
              .pawnMove(`${gameFlow.getTargetTile()[0]}`,
                     `${gameFlow.getTargetTile()[1]}`);
         gameBoard.clearPawns();
