@@ -52,6 +52,12 @@ const pawn = (name, color, row, column) => {
     let pawnRowInt = parseInt(pawnRow);
     let forwardRow = '';
 
+    if (
+      getColor() === 'black' && pawnRow === '1'
+      || getColor() === 'white' && pawnRow === '3') {
+      return [];
+    }
+
     if (getColor() === 'black' & pawnRow !== '1') {
       forwardRow = pawnRowInt - 1;
     } else if (getColor() === 'white' & pawnRow !== '3') {
@@ -246,6 +252,7 @@ const gameBoard = (() => {
       if (!!clickedPawn) {
 
         // removes highlighted previous possible tiles
+        // note code duplication
         if (!!previousPawn) {
           for (const i of previousPawn.calculateLegalMoves()) {
             document
@@ -266,8 +273,10 @@ const gameBoard = (() => {
 
         /**
          * TODO: make sure actual possible tiles are highlighted,
-         * and remove highlighted tiles of previous pawn
+         * and remove highlighted tiles of previous pawn,
+         * also code duplication
          */
+        console.log(currentPawn.calculateLegalMoves());
         for (const i of currentPawn.calculateLegalMoves()) {
           document
             .querySelector(`[data-row='${i[0]}'][data-column='${i[1]}']`)
@@ -308,6 +317,12 @@ const gameBoard = (() => {
             gameBoard.displayPawns();
             gameFlow.changeTargetPawn('');
             clearIndicator();
+            // code duplication
+            for (const i of currentPawn.calculateLegalMoves()) {
+              document
+                .querySelector(`[data-row='${i[0]}'][data-column='${i[1]}']`)
+                .classList.remove('possible-moves');
+            }
         } else {
             gameFlow.changeTargetPawn(clickedPawn.getAttribute('data-name'));
         }
@@ -334,6 +349,8 @@ const gameBoard = (() => {
               .querySelector(`[data-row='${i[0]}'][data-column='${i[1]}']`)
               .classList.remove('possible-moves');
         }
+
+        // code duplication
         previousPawn
              .pawnMove(`${gameFlow.getTargetTile()[0]}`,
                     `${gameFlow.getTargetTile()[1]}`);
