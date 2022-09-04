@@ -65,15 +65,37 @@ const pawn = (name, color, row, column) => {
     }
 
     const calculateForwardMove = () => {
-      return [`${forwardRow.toString()}${pawnColumn}`];
+      let forwardColumn = [];
+      if (gameBoard.getPawn(forwardRow, getColumn(), getColor())
+        === 'no') {
+          forwardColumn.push(`${forwardRow.toString()}${pawnColumn}`)
+        }
+      return forwardColumn;
     }
 
     const calculateDiagonalMove = () => {
-      let diagonalColumn = [''];
-      if (pawnColumn === 'a' || pawnColumn === 'c') {
-        diagonalColumn = ['b'];
-      } else if (pawnColumn ) {
-        diagonalColumn = ['a', 'c']
+      let diagonalColumn = [];
+      if (
+        pawnColumn === 'a' || pawnColumn === 'c'
+      ) {
+        if (
+        gameBoard.getPawn(forwardRow, 'b', getColor())
+        !== 'no'
+        && gameBoard.getPawn(forwardRow, 'b', getColor())[0]
+        !== getColor()[0]) {
+          diagonalColumn = ['b'];
+        }
+      } else if (pawnColumn === 'b') {
+        let validColumn = ['a', 'c'];
+        for (const col of validColumn) {
+          if (
+          gameBoard.getPawn(forwardRow, col, getColor())
+          !== 'no'
+          && gameBoard.getPawn(forwardRow, col, getColor())[0]
+          !== getColor()[0]) {
+            diagonalColumn.push(col);
+          }
+        }
       }
 
       let moveableTile = [];
@@ -254,10 +276,8 @@ const gameBoard = (() => {
         // removes highlighted previous possible tiles
         // note code duplication
         if (!!previousPawn) {
-          for (const i of previousPawn.calculateLegalMoves()) {
-            document
-              .querySelector(`[data-row='${i[0]}'][data-column='${i[1]}']`)
-              .classList.remove('possible-moves');
+          for (const tiles of tilesArr) {
+            tiles.classList.remove('possible-moves');
           }
         }
         
@@ -298,7 +318,6 @@ const gameBoard = (() => {
         &&
         previousPawn
           .calculateLegalMoves()
-          .slice(1,3)
           .includes(
           gameFlow.getTargetTile() 
           )
@@ -323,6 +342,9 @@ const gameBoard = (() => {
                 .querySelector(`[data-row='${i[0]}'][data-column='${i[1]}']`)
                 .classList.remove('possible-moves');
             }
+            for (const tiles of tilesArr) {
+              tiles.classList.remove('possible-moves');
+            }
         } else {
             gameFlow.changeTargetPawn(clickedPawn.getAttribute('data-name'));
         }
@@ -338,8 +360,8 @@ const gameBoard = (() => {
       else if (
         clickedPawn === null 
         && gameFlow.getTargetPawn() !== ''
-        && [previousPawn
-            .calculateLegalMoves()[0]]
+        && previousPawn
+            .calculateLegalMoves()
             .includes(
               gameFlow.getTargetTile() 
             )
@@ -362,10 +384,19 @@ const gameBoard = (() => {
        }
     })
   }
+
+  const getPawn = (row, column) => {
+    let tile = document.querySelector(`[data-row='${row}'][data-column='${column}']`);
+    return tile.querySelector('img') ?
+    tile
+      .querySelector('img')
+      .getAttribute('data-name') : 'no';
+  }
   
   return { displayPawns,
            tilesArr,
-           clearPawns }
+           clearPawns,
+           getPawn }
 })();
 
 gameBoard.displayPawns();

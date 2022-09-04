@@ -52,15 +52,17 @@ header {
   background-color: rgb(54, 54, 54);
 }
 
+.tile.possible-moves {
+  background-color: rgb(42, 144, 165);
+}
+
 .tile:hover {
   background-color: rgb(125, 213, 248);
 }
 
 .tile.selected {
-  background-color: aqua;
+  background-color: rgba(0, 255, 255, 0.689);
 }
 
-.tile.possible-moves {
-  background-color: rgb(42, 144, 165);
-}
+
 
