@@ -1,0 +1,68 @@
+@font-face {
+  font-family: quicksand;
+  src: url(Quicksand/Quicksand-VariableFont_wght.ttf);
+}
+
+html, body {
+  font-family: quicksand, sans-serif;
+  font-size: 2rem;
+  margin: 0;
+  height: 100%;
+  width: 100%;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+}
+
+header,
+.main-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+header {
+  background-color: white;
+  height: 120px;
+}
+
+.main-container {
+  background-color: grey;
+  height: 100%;
+}
+
+.tiles-container {
+  display: grid;
+  grid-template: repeat(3, 1fr) / repeat(3, 1fr);
+  height: min(50vw, 50vh);
+  width: min(50vw, 50vh);
+  gap: 8px;
+}
+
+.tile {
+  background-color: rgb(212, 212, 212);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.tile:nth-child(2n) {
+  background-color: rgb(54, 54, 54);
+}
+
+.tile.possible-moves {
+  background-color: rgb(42, 144, 165);
+}
+
+.tile:hover {
+  background-color: rgb(125, 213, 248);
+}
+
+.tile.selected {
+  background-color: rgba(0, 255, 255, 0.689);
+}
+
+
+
