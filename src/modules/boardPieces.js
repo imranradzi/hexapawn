@@ -147,6 +147,12 @@ export const gameBoard = (() => {
     }
   }
 
+  const clearPossibleMoves = () => {
+    for (const tiles of tilesArr) {
+      tiles.classList.remove('possible-moves');
+    }
+  }
+
   const clearPawns = () => {
     for (const tile of tilesArr) {
       while (tile.firstChild) {
@@ -191,9 +197,7 @@ export const gameBoard = (() => {
         // removes highlighted previous possible tiles
         // note code duplication
         if (!!previousPawn) {
-          for (const tiles of tilesArr) {
-            tiles.classList.remove('possible-moves');
-          }
+          clearPossibleMoves();
         }
         
         tile.classList.add('selected');
@@ -206,11 +210,6 @@ export const gameBoard = (() => {
         console.log(currentPawn
           .calculateLegalMoves());
 
-        /**
-         * TODO: make sure actual possible tiles are highlighted,
-         * and remove highlighted tiles of previous pawn,
-         * also code duplication
-         */
         console.log(currentPawn.calculateLegalMoves());
         for (const i of currentPawn.calculateLegalMoves()) {
           document
@@ -251,15 +250,7 @@ export const gameBoard = (() => {
             gameBoard.displayPawns();
             gameFlow.changeTargetPawn('');
             clearIndicator();
-            // code duplication
-            for (const i of currentPawn.calculateLegalMoves()) {
-              document
-                .querySelector(`[data-row='${i[0]}'][data-column='${i[1]}']`)
-                .classList.remove('possible-moves');
-            }
-            for (const tiles of tilesArr) {
-              tiles.classList.remove('possible-moves');
-            }
+            clearPossibleMoves();
         } else {
             gameFlow.changeTargetPawn(clickedPawn.getAttribute('data-name'));
         }
@@ -287,7 +278,6 @@ export const gameBoard = (() => {
               .classList.remove('possible-moves');
         }
 
-        // code duplication
         previousPawn
              .pawnMove(`${gameFlow.getTargetTile()[0]}`,
                     `${gameFlow.getTargetTile()[1]}`);
