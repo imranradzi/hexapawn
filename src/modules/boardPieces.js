@@ -175,6 +175,14 @@ export const gameBoard = (() => {
     }
   }
 
+  const endOfTurnProcesses = () => {
+    clearPawns();
+    displayPawns();
+    gameFlow.changeTargetPawn('');
+    clearIndicator();
+    clearPossibleMoves();
+  }
+
   for (const tile of tilesArr) {
     tile.addEventListener('click', () => {
       gameFlow
@@ -183,7 +191,6 @@ export const gameBoard = (() => {
         tile.getAttribute('data-column'));
       
       clearIndicator();
-      // console.log(gameFlow.getTargetTile());
 
       let previousPawn = pawns
         .getList()[gameFlow.getTargetPawn()];
@@ -192,101 +199,86 @@ export const gameBoard = (() => {
       // within it
       let clickedPawn = tile.querySelector('img');
       
-      if (!!clickedPawn) {
-
-        // removes highlighted previous possible tiles
-        // note code duplication
-        if (!!previousPawn) {
-          clearPossibleMoves();
-        }
-        
-        tile.classList.add('selected');
-        let clickedPawnName = clickedPawn.getAttribute('data-name');
-
-        let currentPawn = pawns
-            .getList()
-            [`${clickedPawnName}`];
-        
-        console.log(currentPawn
-          .calculateLegalMoves());
-
-        console.log(currentPawn.calculateLegalMoves());
-        for (const i of currentPawn.calculateLegalMoves()) {
-          document
-            .querySelector(`[data-row='${i[0]}'][data-column='${i[1]}']`)
-            .classList.add('possible-moves');
-        }
-
-        // console.log(previousPawn);
-
-        /**
-         * if we clicked on a pawn,
-         * and we also previously clicked on a pawn,
-         * and the selected tile is a valid tile 
-         * for the previously clicked pawn,
-         * and the two pawns are opposite colours,
-         * then the previously clicked pawn
-         * deletes the clicked pawn from existence
-         */
-        if (gameFlow.getTargetPawn() !== ''
-        &&
-        previousPawn
-          .calculateLegalMoves()
-          .includes(
-          gameFlow.getTargetTile() 
-          )
-          
-        /**
-         * checks if the first letter of the two pawns are 
-         * the same or not 
-         */
-        && gameFlow.getTargetPawn()[0] !== clickedPawnName[0]
-        ) {
-            pawns.removePawn(clickedPawnName);
-            previousPawn
-            .pawnMove(`${gameFlow.getTargetTile()[0]}`,
-                      `${gameFlow.getTargetTile()[1]}`);
-            gameBoard.clearPawns();
-            gameBoard.displayPawns();
-            gameFlow.changeTargetPawn('');
-            clearIndicator();
+      if (gameFlow.isGameRunning === true) {
+        if (!!clickedPawn) {
+          if (!!previousPawn) {
             clearPossibleMoves();
-        } else {
-            gameFlow.changeTargetPawn(clickedPawn.getAttribute('data-name'));
-        }
-      }
-
-      /**
-       * if clicked tile has no pawn in it, and
-       * previously we clicked on a pawn,
-       * and if the clicked tile is in the list
-       * of valid legal moves for the pawn,
-       * then it moves the pawn to the clicked tile
-       */
-      else if (
-        clickedPawn === null 
-        && gameFlow.getTargetPawn() !== ''
-        && previousPawn
-            .calculateLegalMoves()
-            .includes(
-              gameFlow.getTargetTile() 
-            )
-        ) {
-        for (const i of previousPawn.calculateLegalMoves()) {
+          }
+          
+          tile.classList.add('selected');
+          let clickedPawnName = clickedPawn.getAttribute('data-name');
+  
+          let currentPawn = pawns
+              .getList()
+              [`${clickedPawnName}`];
+          
+          for (const i of currentPawn.calculateLegalMoves()) {
             document
               .querySelector(`[data-row='${i[0]}'][data-column='${i[1]}']`)
-              .classList.remove('possible-moves');
-        }
+              .classList.add('possible-moves');
+          }
 
-        previousPawn
-             .pawnMove(`${gameFlow.getTargetTile()[0]}`,
-                    `${gameFlow.getTargetTile()[1]}`);
-        gameBoard.clearPawns();
-        gameBoard.displayPawns();
-        gameFlow.changeTargetPawn('');
-        clearIndicator();
-        console.log(gameFlow.getTargetPawn());
-       }
+          /**
+           * if we clicked on a pawn,
+           * and we also previously clicked on a pawn,
+           * and the selected tile is a valid tile 
+           * for the previously clicked pawn,
+           * and the two pawns are opposite colours,
+           * then the previously clicked pawn
+           * eats clicked pawn
+           */
+          if (gameFlow.getTargetPawn() !== ''
+          &&
+          previousPawn
+            .calculateLegalMoves()
+            .includes(
+            gameFlow.getTargetTile() 
+            )
+            
+          /**
+           * checks if the first letter of the two pawns are 
+           * the same or not 
+           */
+          && gameFlow.getTargetPawn()[0] !== clickedPawnName[0]
+          ) {
+              pawns.removePawn(clickedPawnName);
+              previousPawn
+              .pawnMove(`${gameFlow.getTargetTile()[0]}`,
+                        `${gameFlow.getTargetTile()[1]}`);
+              endOfTurnProcesses();
+          } else {
+              gameFlow.changeTargetPawn(clickedPawn.getAttribute('data-name'));
+          }
+        }
+  
+        /**
+         * if clicked tile has no pawn in it, and
+         * previously we clicked on a pawn,
+         * and if the clicked tile is in the list
+         * of valid legal moves for the pawn,
+         * then it moves the pawn to the clicked tile
+         */
+        else if (
+          clickedPawn === null 
+          && gameFlow.getTargetPawn() !== ''
+          && previousPawn
+              .calculateLegalMoves()
+              .includes(
+                gameFlow.getTargetTile() 
+              )
+          ) {
+          for (const i of previousPawn.calculateLegalMoves()) {
+              document
+                .querySelector(`[data-row='${i[0]}'][data-column='${i[1]}']`)
+                .classList.remove('possible-moves');
+          }
+  
+          previousPawn
+               .pawnMove(`${gameFlow.getTargetTile()[0]}`,
+                      `${gameFlow.getTargetTile()[1]}`);
+          endOfTurnProcesses();
+         }
+      }
     })
   }
 

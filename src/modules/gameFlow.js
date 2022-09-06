@@ -2,7 +2,7 @@ export const gameFlow = (() => {
   let targetRow = '';
   let targetColumn = '';
   let targetPawn = '';
-  let isGameRunning = false;
+  let isGameRunning = true;
 
   const getTargetTile = () => {;
     return `${targetRow}${targetColumn}`;
@@ -26,15 +26,6 @@ export const gameFlow = (() => {
    *       i.e., let white move first,
    *       then black, etc.
    */ 
-
-  const gameLoop = () => {
-    while (isGameRunning === true) {
-      /**
-       * execute turn based gameplay
-       * if game is running
-       */
-    }
-  }
 
   const startGame = () => {
     /**
@@ -65,6 +56,7 @@ export const gameFlow = (() => {
            changeTargetTile,
            getTargetPawn,
            changeTargetPawn,
+           isGameRunning,
            startGame,
            endGame,
            checkWin };
