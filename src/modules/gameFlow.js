@@ -28,28 +28,34 @@ export const gameFlow = (() => {
    */ 
 
   const startGame = () => {
-    /**
-     * sets isgamerunning to true
-     * starts gameloop
-     */
     isGameRunning = true;
   }
 
   const endGame = () => {
-    /**
-     * terminates
-     * loop above
-     */
     isGameRunning = false;
   }
 
-  const checkWin = () => {
-    /**
-     * at the start (or maybe end)
-     * of every loop,
-     * check for winning (or losing)
-     * conditions
-     */
+  /**
+   * accepts pawns object
+   * and checks for one of three
+   * conditions for game to end
+   * 1. white/black unable to move
+   * 2. white/black pawns are all gone
+   * (similar to 1.)
+   * 3. white/black pawn has advanced
+   * to the other end of the board
+   */
+  const checkWin = (pawns, colour) => {
+    let win = false;
+    for (let pawn in pawns) {
+      /**
+       * check the three conditions
+       * if any is met
+       * set win === true
+       */
+    }
+
+    if (win === true) isGameRunning = false;
   }
 
   return { getTargetTile,
