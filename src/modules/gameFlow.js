@@ -1,8 +1,11 @@
+import { pawn, pawns } from './boardPieces';
+
 export const gameFlow = (() => {
   let targetRow = '';
   let targetColumn = '';
   let targetPawn = '';
   let isGameRunning = true;
+  let currentColour = 'white';
 
   const getTargetTile = () => {;
     return `${targetRow}${targetColumn}`;
@@ -21,6 +24,18 @@ export const gameFlow = (() => {
     targetPawn = pawn;
   }
 
+  const checkGameState = () => {
+    return isGameRunning;
+  }
+
+  const changeGameState = () => {
+    if (isGameRunning === true) {
+      isGameRunning = false;
+    } else if (isGameRunning === false) {
+      isGameRunning = true;
+    }
+  }
+
   /**
    * TODO: add turn based functionality
    *       i.e., let white move first,
@@ -35,35 +50,26 @@ export const gameFlow = (() => {
     isGameRunning = false;
   }
 
-  /**
-   * accepts pawns object
-   * and checks for one of three
-   * conditions for game to end
-   * 1. white/black unable to move
-   * 2. white/black pawns are all gone
-   * (similar to 1.)
-   * 3. white/black pawn has advanced
-   * to the other end of the board
-   */
-  const checkWin = (pawns, colour) => {
-    let win = false;
-    for (let pawn in pawns) {
-      /**
-       * check the three conditions
-       * if any is met
-       * set win === true
-       */
-    }
+  const checkCurrentColour = () => {
+    return currentColour;
+  }
 
-    if (win === true) isGameRunning = false;
+  const changeColour = () => {
+    if (currentColour === 'white') {
+      currentColour = 'black';
+    } else if (currentColour === 'black') {
+      currentColour = 'white';
+    }
   }
 
   return { getTargetTile,
            changeTargetTile,
            getTargetPawn,
            changeTargetPawn,
-           isGameRunning,
+           checkGameState,
            startGame,
            endGame,
-           checkWin };
+           changeGameState,
+           checkCurrentColour,
+           changeColour };
 })();

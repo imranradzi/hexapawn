@@ -1,7 +1,6 @@
 import { domElements } from './domElements';
 import { gameFlow } from './gameFlow';
 
-// depends on gameBoard
 export const pawn = (name, color, row, column) => {
   const pawnName = name;
   const pawnColor = color;
@@ -175,12 +174,35 @@ export const gameBoard = (() => {
     }
   }
 
+  const checkWin = () => {
+    let colour = gameFlow.checkCurrentColour();
+    let allPossibleMoves = [];
+    
+    for (let pawn in pawns.getList()) {
+      let currPawn = pawns.getList()[pawn];
+      if (currPawn.getColor()[0] !== colour[0]) {
+        console.log(pawn);
+        for (const i of currPawn.calculateLegalMoves()) {
+          allPossibleMoves.push(i);
+        }
+      }
+    }
+    console.log(allPossibleMoves);
+    if (allPossibleMoves.length === 0) {
+      gameFlow.changeGameState();
+      console.log(gameFlow.checkGameState());
+      return 0;
+    }
+  }
+
   const endOfTurnProcesses = () => {
     clearPawns();
     displayPawns();
     gameFlow.changeTargetPawn('');
     clearIndicator();
     clearPossibleMoves();
+    checkWin();
+    gameFlow.changeColour();
   }
 
   for (const tile of tilesArr) {
@@ -199,7 +221,7 @@ export const gameBoard = (() => {
       // within it
       let clickedPawn = tile.querySelector('img');
       
-      if (gameFlow.isGameRunning === true) {
+      if (gameFlow.checkGameState() === true) {
         if (!!clickedPawn) {
           if (!!previousPawn) {
             clearPossibleMoves();
