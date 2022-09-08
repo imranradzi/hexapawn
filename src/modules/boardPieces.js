@@ -187,13 +187,13 @@ export const gameBoard = (() => {
         && currPawn.getColor() === 'white'
         ) {
           gameFlow.changeGameState();
-          return 0;
+          return;
         } else if (
           currPawn.getRow() === '1'
           && currPawn.getColor() === 'black'
         ) {
           gameFlow.changeGameState();
-          return 0;
+          return;
         }
       } else if (currPawn.getColor()[0] !== colour[0]) {
           for (const i of currPawn.calculateLegalMoves()) {
@@ -204,7 +204,7 @@ export const gameBoard = (() => {
     console.log(allPossibleMoves);
     if (allPossibleMoves.length === 0) {
       gameFlow.changeGameState();
-      return 0;
+      return;
     }
   }
 
