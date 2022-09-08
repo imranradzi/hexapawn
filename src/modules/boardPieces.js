@@ -178,9 +178,13 @@ export const gameBoard = (() => {
     let colour = gameFlow.checkCurrentColour();
     let allPossibleMoves = [];
     
-    // check if other colour can move or not
     for (let pawn in pawns.getList()) {
       let currPawn = pawns.getList()[pawn];
+
+      /**
+       * logic for checking if pawn
+       * is on other side of the board
+       */
       if (currPawn.getColor()[0] === colour[0]) {
         if (
         currPawn.getRow() === '3'
@@ -195,6 +199,10 @@ export const gameBoard = (() => {
           gameFlow.changeGameState();
           return;
         }
+
+      /** logic for checking
+       * if other color can move
+       */
       } else if (currPawn.getColor()[0] !== colour[0]) {
           for (const i of currPawn.calculateLegalMoves()) {
             allPossibleMoves.push(i);
@@ -229,9 +237,6 @@ export const gameBoard = (() => {
 
       let previousPawn = pawns
         .getList()[gameFlow.getTargetPawn()];
-
-      // this checks if the tile has a pawnimg contained
-      // within it
       let clickedPawn = tile.querySelector('img');
       
       if (gameFlow.checkGameState() === true) {
