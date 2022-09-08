@@ -247,8 +247,7 @@ export const gameBoard = (() => {
               .getList()
               [`${clickedPawnName}`];
           
-          //console.log(currentPawn.getColor());
-          //console.log(gameFlow.checkCurrentColour())
+          // display pawn possible moves
           if (currentPawn.getColor()
           === gameFlow.checkCurrentColour()) {
             for (const i of currentPawn.calculateLegalMoves()) {
@@ -258,15 +257,7 @@ export const gameBoard = (() => {
             }
           }
           
-          /**
-           * if we clicked on a pawn,
-           * and we also previously clicked on a pawn,
-           * and the selected tile is a valid tile 
-           * for the previously clicked pawn,
-           * and the two pawns are opposite colours,
-           * then the previously clicked pawn
-           * eats clicked pawn
-           */
+          // pawn eats enemy pawn
           if (gameFlow.getTargetPawn() !== ''
           &&
           previousPawn
@@ -274,13 +265,7 @@ export const gameBoard = (() => {
             .includes(
             gameFlow.getTargetTile()
             )
-            
-          /**
-           * checks if the first letter of the two pawns are 
-           * the same or not 
-           */
           && gameFlow.getTargetPawn()[0] !== clickedPawnName[0]
-
           && previousPawn.getColor() === gameFlow.checkCurrentColour()
           ) {
               pawns.removePawn(clickedPawnName);
@@ -293,13 +278,7 @@ export const gameBoard = (() => {
           }
         }
   
-        /**
-         * if clicked tile has no pawn in it, and
-         * previously we clicked on a pawn,
-         * and if the clicked tile is in the list
-         * of valid legal moves for the pawn,
-         * then it moves the pawn to the clicked tile
-         */
+        // pawn moves to empty tile
         else if (
           clickedPawn === null 
           && gameFlow.getTargetPawn() !== ''
@@ -310,12 +289,7 @@ export const gameBoard = (() => {
               )
           && previousPawn.getColor() === gameFlow.checkCurrentColour()
           ) {
-          for (const i of previousPawn.calculateLegalMoves()) {
-              document
-                .querySelector(`[data-row='${i[0]}'][data-column='${i[1]}']`)
-                .classList.remove('possible-moves');
-          }
-  
+          clearPossibleMoves();
           previousPawn
                .pawnMove(`${gameFlow.getTargetTile()[0]}`,
                       `${gameFlow.getTargetTile()[1]}`);
