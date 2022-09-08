@@ -178,19 +178,32 @@ export const gameBoard = (() => {
     let colour = gameFlow.checkCurrentColour();
     let allPossibleMoves = [];
     
+    // check if other colour can move or not
     for (let pawn in pawns.getList()) {
       let currPawn = pawns.getList()[pawn];
-      if (currPawn.getColor()[0] !== colour[0]) {
-        console.log(pawn);
-        for (const i of currPawn.calculateLegalMoves()) {
-          allPossibleMoves.push(i);
+      if (currPawn.getColor()[0] === colour[0]) {
+        if (
+        currPawn.getRow() === '3'
+        && currPawn.getColor() === 'white'
+        ) {
+          gameFlow.changeGameState();
+          return 0;
+        } else if (
+          currPawn.getRow() === '1'
+          && currPawn.getColor() === 'black'
+        ) {
+          gameFlow.changeGameState();
+          return 0;
         }
+      } else if (currPawn.getColor()[0] !== colour[0]) {
+          for (const i of currPawn.calculateLegalMoves()) {
+            allPossibleMoves.push(i);
+          }
       }
     }
     console.log(allPossibleMoves);
     if (allPossibleMoves.length === 0) {
       gameFlow.changeGameState();
-      console.log(gameFlow.checkGameState());
       return 0;
     }
   }
@@ -234,12 +247,17 @@ export const gameBoard = (() => {
               .getList()
               [`${clickedPawnName}`];
           
-          for (const i of currentPawn.calculateLegalMoves()) {
-            document
-              .querySelector(`[data-row='${i[0]}'][data-column='${i[1]}']`)
-              .classList.add('possible-moves');
+          //console.log(currentPawn.getColor());
+          //console.log(gameFlow.checkCurrentColour())
+          if (currentPawn.getColor()
+          === gameFlow.checkCurrentColour()) {
+            for (const i of currentPawn.calculateLegalMoves()) {
+              document
+                .querySelector(`[data-row='${i[0]}'][data-column='${i[1]}']`)
+                .classList.add('possible-moves');
+            }
           }
-
+          
           /**
            * if we clicked on a pawn,
            * and we also previously clicked on a pawn,
@@ -254,7 +272,7 @@ export const gameBoard = (() => {
           previousPawn
             .calculateLegalMoves()
             .includes(
-            gameFlow.getTargetTile() 
+            gameFlow.getTargetTile()
             )
             
           /**
@@ -262,6 +280,8 @@ export const gameBoard = (() => {
            * the same or not 
            */
           && gameFlow.getTargetPawn()[0] !== clickedPawnName[0]
+
+          && previousPawn.getColor() === gameFlow.checkCurrentColour()
           ) {
               pawns.removePawn(clickedPawnName);
               previousPawn
@@ -288,6 +308,7 @@ export const gameBoard = (() => {
               .includes(
                 gameFlow.getTargetTile() 
               )
+          && previousPawn.getColor() === gameFlow.checkCurrentColour()
           ) {
           for (const i of previousPawn.calculateLegalMoves()) {
               document
