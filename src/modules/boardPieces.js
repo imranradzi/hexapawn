@@ -1,5 +1,6 @@
-import { domElements } from './domElements';
+import { tilesNodes } from './domElements';
 import { gameFlow } from './gameFlow';
+import { changeInfo } from './infoDisplay';
 
 export const pawn = (name, color, row, column) => {
   const pawnName = name;
@@ -138,7 +139,7 @@ export const pawns = (() => {
 // depends on domElements, pawn, gameFlow
 export const gameBoard = (() => {
   const tilesArr = Array
-  .from(domElements.tilesNodes);
+  .from(tilesNodes);
 
   const clearIndicator = () => {
     for (const tile of tilesArr) {
@@ -191,13 +192,13 @@ export const gameBoard = (() => {
         && currPawn.getColor() === 'white'
         ) {
           gameFlow.changeGameState();
-          return;
+          return 1;
         } else if (
           currPawn.getRow() === '1'
           && currPawn.getColor() === 'black'
         ) {
           gameFlow.changeGameState();
-          return;
+          return 1;
         }
 
       /** logic for checking
@@ -212,7 +213,7 @@ export const gameBoard = (() => {
     console.log(allPossibleMoves);
     if (allPossibleMoves.length === 0) {
       gameFlow.changeGameState();
-      return;
+      return 1;
     }
   }
 
@@ -222,8 +223,12 @@ export const gameBoard = (() => {
     gameFlow.changeTargetPawn('');
     clearIndicator();
     clearPossibleMoves();
-    checkWin();
-    gameFlow.changeColour();
+    if (checkWin()) {
+      changeInfo(`${gameFlow.checkCurrentColour()} has won.`);
+    } else {
+      gameFlow.changeColour();
+      changeInfo(`${gameFlow.checkCurrentColour()} to move.`);
+    }
   }
 
   for (const tile of tilesArr) {

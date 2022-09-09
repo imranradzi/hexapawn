@@ -31,6 +31,13 @@ header {
 .main-container {
   background-color: grey;
   height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.info-display {
+  color: white;
+  font-size: 1rem;
 }
 
 .tiles-container {
@@ -39,6 +46,7 @@ header {
   height: min(50vw, 50vh);
   width: min(50vw, 50vh);
   gap: 8px;
+  margin-top: 20px;
 }
 
 .tile {
