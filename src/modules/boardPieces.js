@@ -307,6 +307,8 @@ export const gameBoard = (() => {
           endOfTurnProcesses();
          }
       }
+
+      // for computer movements
       if (gameFlow.checkCurrentColour() === 'black' 
       && gameFlow.getTargetPawn()[0] !== 'b') {
         let computerMoveableTiles = [];
@@ -328,9 +330,12 @@ export const gameBoard = (() => {
 
         let computerPawnImg = document.querySelector(`[data-name='${computerPawn}']`);
 
-        computerPawnImg.click();
-        computerMoveableTiles[0].click();
-        endOfTurnProcesses();
+        setTimeout(() => {
+          computerPawnImg.click();
+          computerMoveableTiles[0].click();
+        }
+        , 1000)
+
         console.log(computerMoveableTiles);
       }
     })
