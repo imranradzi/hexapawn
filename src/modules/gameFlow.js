@@ -18,6 +18,14 @@ export const gameFlow = (() => {
     return targetPawn;
   }
 
+  const getPawnImg = (row, column) => {
+    let tile = document.querySelector(`[data-row='${row}'][data-column='${column}']`);
+    return tile.querySelector('img') ?
+    tile
+      .querySelector('img')
+      .getAttribute('data-name') : 'no';
+  }
+
   const changeTargetPawn = (pawn) => {
     targetPawn = pawn;
   }
@@ -63,6 +71,7 @@ export const gameFlow = (() => {
   return { getTargetTile,
            changeTargetTile,
            getTargetPawn,
+           getPawnImg,
            changeTargetPawn,
            checkGameState,
            startGame,
