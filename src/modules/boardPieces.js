@@ -1,7 +1,7 @@
 import { tilesNodes } from './domElements';
 import { gameFlow } from './gameFlow';
 import { changeInfo } from './infoDisplay';
-import { getRandomPawn } from './computerMoves';
+import { getMoveablePawns, getRandomIndex} from './computerMoves';
 
 export const pawn = (name, color, row, column) => {
   const pawnName = name;
@@ -310,12 +310,16 @@ export const gameBoard = (() => {
 
       // for computer movements
       if (gameFlow.checkCurrentColour() === 'black' 
-      && gameFlow.getTargetPawn()[0] !== 'b') {
-        let computerMoveableTiles = [];
+      && gameFlow.getTargetPawn()[0] !== 'b'
+      && gameFlow.checkGameState()) {
+        let computerMoveableTiles;
         let computerPawn;
       
-        while(computerMoveableTiles.length === 0) {
-          computerPawn = getRandomPawn().getAttribute('data-name');
+        let index = Math.floor(Math.random() * getMoveablePawns().length);
+        while (true) {
+          computerMoveableTiles = [];
+          computerPawn = getMoveablePawns()[index]
+          .getAttribute('data-name');
           for (const i of pawns
             .getList()[computerPawn]
             .calculateLegalMoves()) {
@@ -326,13 +330,18 @@ export const gameBoard = (() => {
                 )
             )
           }
+
+          if (computerMoveableTiles.length > 0) break;
+
+          index = (index + 1) % getMoveablePawns().length;
         }
 
         let computerPawnImg = document.querySelector(`[data-name='${computerPawn}']`);
 
         setTimeout(() => {
           computerPawnImg.click();
-          computerMoveableTiles[0].click();
+          let moveIndex = Math.floor(Math.random() * computerMoveableTiles.length);
+          computerMoveableTiles[moveIndex].click();
         }
         , 1000)
 

@@ -10,9 +10,8 @@ export const getMoveablePawns = () => {
   return [...document.querySelectorAll('.tile > img')].filter(filterColoredPawns);
 }
 
-export const getRandomPawn = () => {
-  let index = Math.floor(Math.random() * getMoveablePawns.length);
-  return getMoveablePawns(0)[index];
+export const getRandomIndex = () => {
+  return index = Math.floor(Math.random() * getMoveablePawns.length);
 }
 
 
