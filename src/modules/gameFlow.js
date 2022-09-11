@@ -1,5 +1,3 @@
-import { pawn, pawns } from './boardPieces';
-
 export const gameFlow = (() => {
   let targetRow = '';
   let targetColumn = '';

@@ -1,6 +1,7 @@
 import { tilesNodes } from './domElements';
 import { gameFlow } from './gameFlow';
 import { changeInfo } from './infoDisplay';
+import { getRandomPawn } from './computerMoves';
 
 export const pawn = (name, color, row, column) => {
   const pawnName = name;
@@ -210,7 +211,7 @@ export const gameBoard = (() => {
           }
       }
     }
-    console.log(allPossibleMoves);
+
     if (allPossibleMoves.length === 0) {
       gameFlow.changeGameState();
       return 1;
@@ -305,6 +306,32 @@ export const gameBoard = (() => {
                       `${gameFlow.getTargetTile()[1]}`);
           endOfTurnProcesses();
          }
+      }
+      if (gameFlow.checkCurrentColour() === 'black' 
+      && gameFlow.getTargetPawn()[0] !== 'b') {
+        let computerMoveableTiles = [];
+        let computerPawn;
+      
+        while(computerMoveableTiles.length === 0) {
+          computerPawn = getRandomPawn().getAttribute('data-name');
+          for (const i of pawns
+            .getList()[computerPawn]
+            .calculateLegalMoves()) {
+              computerMoveableTiles.push(
+              document
+                .querySelector(
+                  `[data-row='${i[0]}'][data-column='${i[1]}']`
+                )
+            )
+          }
+        }
+
+        let computerPawnImg = document.querySelector(`[data-name='${computerPawn}']`);
+
+        computerPawnImg.click();
+        computerMoveableTiles[0].click();
+        endOfTurnProcesses();
+        console.log(computerMoveableTiles);
       }
     })
   }
