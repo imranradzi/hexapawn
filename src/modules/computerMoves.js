@@ -11,7 +11,7 @@ export const getMoveablePawns = () => {
 }
 
 export const getRandomPawn = () => {
-  let index = Math.floor(Math.random() * 2);
+  let index = Math.floor(Math.random() * getMoveablePawns.length);
   return getMoveablePawns(0)[index];
 }
 
