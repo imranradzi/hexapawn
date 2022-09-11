@@ -1,5 +1,4 @@
 import './styles.css';
-import { gameBoard } from './modules/boardPieces';
-import { getMoveablePawns, getRandomPawn } from './modules/computerMoves';
+import { gameBoard } from './modules/board';
 
 gameBoard.displayPawns();

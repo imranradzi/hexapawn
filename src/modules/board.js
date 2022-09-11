@@ -1,4 +1,4 @@
-import { tilesNodes } from './domElements';
+import { header, tilesNodes } from './domElements';
 import { pawn, pawns } from './pawns';
 import { gameFlow } from './gameFlow';
 import { changeInfo } from './infoDisplay';
@@ -183,8 +183,19 @@ export const gameBoard = (() => {
       }
     })
   }
+
+  const boardReset = () => {
+    gameFlow.resetFlow();
+    pawns.resetPawns();
+    clearPawns();
+    displayPawns();
+    changeInfo(`${gameFlow.checkCurrentColour()} to move.`);
+  }
+
+  header.addEventListener('click', boardReset);
   
   return { displayPawns,
            tilesArr,
-           clearPawns }
+           clearPawns,
+           boardReset }
 })();

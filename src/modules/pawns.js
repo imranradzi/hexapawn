@@ -1,3 +1,4 @@
+import { clone, cloneDeep } from "lodash";
 import { gameFlow } from "./gameFlow";
 
 export const pawn = (name, color, row, column) => {
@@ -39,10 +40,6 @@ export const pawn = (name, color, row, column) => {
     pawnColumn = newColumn;
   }
 
-  /**
-   * returns an array of tiles that 
-   * pawn can legally move to
-   */ 
   const calculateLegalMoves = () => {
     let pawnRowInt = parseInt(pawnRow);
     let forwardRow = '';
@@ -116,12 +113,18 @@ export const pawn = (name, color, row, column) => {
 export const pawns = (() => {
   const abc = ['a', 'b', 'c'];
   const list = {};
-  for (let i = 1; i < 4; i++) {
-    list[`bpawn${i}`] = pawn(`bpawn${i}`, 'black',
-    '3', abc[i - 1]);
-    list[`wpawn${i}`] = pawn(`wpawn${i}`, 'white',
-    '1', abc[i - 1]);
+
+  function initList() {
+    for (let i = 1; i < 4; i++) {
+      list[`bpawn${i}`] = pawn(`bpawn${i}`, 'black',
+      '3', abc[i - 1]);
+      list[`wpawn${i}`] = pawn(`wpawn${i}`, 'white',
+      '1', abc[i - 1]);
+    }
   }
+
+  initList();
+
 
   const getList = () => {
     return list;
@@ -131,5 +134,15 @@ export const pawns = (() => {
     delete list[pawnName];
   }
 
-  return { getList, removePawn }
+  const resetPawns = () => {
+    for (const key in list) {
+      if (list.hasOwnProperty(key)) {
+        delete list[key];
+      }
+    }
+
+    initList();
+  }
+
+  return { getList, removePawn, resetPawns };
 })();

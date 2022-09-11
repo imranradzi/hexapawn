@@ -42,20 +42,6 @@ export const gameFlow = (() => {
     }
   }
 
-  /**
-   * TODO: add turn based functionality
-   *       i.e., let white move first,
-   *       then black, etc.
-   */ 
-
-  const startGame = () => {
-    isGameRunning = true;
-  }
-
-  const endGame = () => {
-    isGameRunning = false;
-  }
-
   const checkCurrentColour = () => {
     return currentColour;
   }
@@ -68,15 +54,22 @@ export const gameFlow = (() => {
     }
   }
 
+  const resetFlow = () => {
+    targetRow = '';
+    targetColumn = '';
+    targetPawn = '';
+    isGameRunning = true;
+    currentColour = 'white';
+  }
+
   return { getTargetTile,
            changeTargetTile,
            getTargetPawn,
            getPawnImg,
            changeTargetPawn,
            checkGameState,
-           startGame,
-           endGame,
            changeGameState,
            checkCurrentColour,
-           changeColour };
+           changeColour,
+           resetFlow };
 })();
