@@ -1,4 +1,4 @@
-import { clone, cloneDeep } from "lodash";
+import { cloneDeep } from "lodash";
 import { gameFlow } from "./gameFlow";
 
 export const pawn = (name, color, row, column) => {
@@ -112,36 +112,28 @@ export const pawn = (name, color, row, column) => {
 
 export const pawns = (() => {
   const abc = ['a', 'b', 'c'];
-  const list = {};
+  const originalList = {};
+  let variableList = {};
 
-  function initList() {
-    for (let i = 1; i < 4; i++) {
-      list[`bpawn${i}`] = pawn(`bpawn${i}`, 'black',
-      '3', abc[i - 1]);
-      list[`wpawn${i}`] = pawn(`wpawn${i}`, 'white',
-      '1', abc[i - 1]);
-    }
+  for (let i = 1; i < 4; i++) {
+    originalList[`bpawn${i}`] = pawn(`bpawn${i}`, 'black',
+    '3', abc[i - 1]);
+    originalList[`wpawn${i}`] = pawn(`wpawn${i}`, 'white',
+    '1', abc[i - 1]);
   }
 
-  initList();
-
+  variableList = cloneDeep(originalList);
 
   const getList = () => {
-    return list;
+    return variableList;
   }
 
   const removePawn = (pawnName) => {
-    delete list[pawnName];
+    delete variableList[pawnName];
   }
 
   const resetPawns = () => {
-    for (const key in list) {
-      if (list.hasOwnProperty(key)) {
-        delete list[key];
-      }
-    }
-
-    initList();
+    variableList = cloneDeep(originalList);
   }
 
   return { getList, removePawn, resetPawns };
