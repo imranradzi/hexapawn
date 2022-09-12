@@ -48,6 +48,9 @@ header {
   width: min(50vw, 50vh);
   gap: 8px;
   margin-top: 20px;
+  background-color: rgb(107, 107, 107);
+  border-radius: 20px;;
+  padding: 10px;
 }
 
 .tile {
@@ -55,6 +58,7 @@ header {
   display: flex;
   justify-content: center;
   align-items: center;
+  border-radius: 20px;
 }
 
 .tile:nth-child(2n) {
