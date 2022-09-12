@@ -191,7 +191,7 @@ export const gameBoard = (() => {
     pawns.resetPawns();
     clearPawns();
     displayPawns();
-    changeInfo(`${gameFlow.checkCurrentColour()} to move.`);
+    changeInfo(`${gameFlow.checkCurrentColour()} to move`);
   }
 
   header.addEventListener('click', boardReset);
