@@ -11,24 +11,38 @@
 <body>
   <header>Hexapawn</header>
   <div class="main-container">
-    <div class="info-display">
-      white to move.
+    <div id="black">
+      <div>Black</div>
+      <div id="black-score">
+        0
+      </div>
     </div>
-    <div class="tiles-container">
-      <div class="tile" data-row="3" data-column="a">
+    <div id="main-content">
+      <div class="info-display">
+        white to move
       </div>
-      <div class="tile" data-row="3" data-column="b">
+      <div class="tiles-container">
+        <div class="tile" data-row="3" data-column="a">
+        </div>
+        <div class="tile" data-row="3" data-column="b">
+        </div>
+        <div class="tile" data-row="3" data-column="c">
+        </div>
+        <div class="tile" data-row="2" data-column="a"></div>
+        <div class="tile" data-row="2" data-column="b"></div>
+        <div class="tile" data-row="2" data-column="c"></div>
+        <div class="tile" data-row="1" data-column="a">
+        </div>
+        <div class="tile" data-row="1" data-column="b">
+        </div>
+        <div class="tile" data-row="1" data-column="c">
+        </div>
       </div>
-      <div class="tile" data-row="3" data-column="c">
-      </div>
-      <div class="tile" data-row="2" data-column="a"></div>
-      <div class="tile" data-row="2" data-column="b"></div>
-      <div class="tile" data-row="2" data-column="c"></div>
-      <div class="tile" data-row="1" data-column="a">
-      </div>
-      <div class="tile" data-row="1" data-column="b">
-      </div>
-      <div class="tile" data-row="1" data-column="c">
+    </div>
+    <div id="white">
+      <div>White</div>
+      <div id="white-score">
+        0
       </div>
     </div>
   </div>
