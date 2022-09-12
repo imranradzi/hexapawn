@@ -33,12 +33,30 @@ header {
   background-color: grey;
   height: 100%;
   display: flex;
+  flex-wrap: wrap;
+}
+
+#black, #white {
+  font-size: 1rem;
+  padding: 48px;
+  display: flex;
   flex-direction: column;
+  text-align: center;
+}
+
+#white {
+  color: white;
 }
 
 .info-display {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   color: white;
   font-size: 1rem;
+  background-color: rgb(107, 107, 107);
+  border-radius: 20px;
+  padding: 4px;
 }
 
 .tiles-container {
@@ -46,7 +64,7 @@ header {
   grid-template: repeat(3, 1fr) / repeat(3, 1fr);
   height: min(50vw, 50vh);
   width: min(50vw, 50vh);
-  gap: 8px;
+  gap: 10px;
   margin-top: 20px;
   background-color: rgb(107, 107, 107);
   border-radius: 20px;;

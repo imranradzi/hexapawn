@@ -4,6 +4,8 @@ export const gameFlow = (() => {
   let targetPawn = '';
   let isGameRunning = true;
   let currentColour = 'white';
+  let currBlackScore = 0;
+  let currWhiteScore = 0;
 
   const getTargetTile = () => {;
     return `${targetRow}${targetColumn}`;
@@ -62,6 +64,22 @@ export const gameFlow = (() => {
     currentColour = 'white';
   }
 
+  const updateScore = (colour) => {
+    if (colour === 'black') {
+      currBlackScore++;
+    } else if (colour === 'white') {
+      currWhiteScore++;
+    }
+  }
+
+  const getBlackScore = () => {
+    return currBlackScore;
+  }
+
+  const getWhiteScore = () => {
+    return currWhiteScore;
+  }
+
   return { getTargetTile,
            changeTargetTile,
            getTargetPawn,
@@ -71,5 +89,8 @@ export const gameFlow = (() => {
            changeGameState,
            checkCurrentColour,
            changeColour,
-           resetFlow };
+           resetFlow,
+           updateScore,
+           getBlackScore,
+           getWhiteScore};
 })();

@@ -1,7 +1,7 @@
 import { header, tilesNodes } from './domElements';
 import { pawn, pawns } from './pawns';
 import { gameFlow } from './gameFlow';
-import { changeInfo } from './infoDisplay';
+import { changeInfo, changeScore } from './display';
 import { basicComputerMove } from './computerMoves';
 
 // depends on domElements, pawn, gameFlow
@@ -92,10 +92,12 @@ export const gameBoard = (() => {
     clearIndicator();
     clearPossibleMoves();
     if (checkWin()) {
-      changeInfo(`${gameFlow.checkCurrentColour()} has won.`);
+      changeInfo(`${gameFlow.checkCurrentColour()} has won!`);
+      gameFlow.updateScore(gameFlow.checkCurrentColour());
+      changeScore(gameFlow.checkCurrentColour());
     } else {
       gameFlow.changeColour();
-      changeInfo(`${gameFlow.checkCurrentColour()} to move.`);
+      changeInfo(`${gameFlow.checkCurrentColour()} to move`);
     }
   }
 

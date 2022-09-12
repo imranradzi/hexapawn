@@ -6,3 +6,9 @@ export const tilesNodes = document
 
 export const header = document
             .querySelector('header');
+
+export const blackScore = document
+            .querySelector('#black-score');
+
+export const whiteScore = document
+            .querySelector('#white-score');
