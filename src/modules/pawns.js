@@ -125,7 +125,7 @@ export const pawns = (() => {
   }
 
   const removePawn = (pawnName) => {
-    delete originalList[pawnName];
+    delete list[pawnName];
   }
 
   const resetPawns = () => {

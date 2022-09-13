@@ -7,7 +7,7 @@ export const gameFlow = (() => {
   let currBlackScore = 0;
   let currWhiteScore = 0;
 
-  const getTargetTile = () => {;
+  const getTargetTile = () => {
     return `${targetRow}${targetColumn}`;
   }
   

@@ -11,15 +11,15 @@ export const getMoveablePawns = () => {
 }
 
 export const getRandomIndex = () => {
-  return index = Math.floor(Math.random() * getMoveablePawns.length);
+  return Math.floor(Math.random() * getMoveablePawns.length);
 }
 
 export const basicComputerMove = () => {
-  let computerMoveableTiles;
+  let computerMoveableTiles = [];
   let computerPawn;
-
   let index = Math.floor(Math.random() * getMoveablePawns().length);
-  while (true) {
+
+  while (computerMoveableTiles.length === 0) {
     computerMoveableTiles = [];
     computerPawn = getMoveablePawns()[index]
     .getAttribute('data-name');
@@ -33,8 +33,6 @@ export const basicComputerMove = () => {
           )
       )
     }
-  
-    if (computerMoveableTiles.length > 0) break;
 
     index = (index + 1) % getMoveablePawns().length;
   }

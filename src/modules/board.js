@@ -1,5 +1,5 @@
 import { header, tilesNodes } from './domElements';
-import { pawn, pawns } from './pawns';
+import { pawns } from './pawns';
 import { gameFlow } from './gameFlow';
 import { changeInfo, changeScore } from './display';
 import { basicComputerMove } from './computerMoves';
@@ -115,8 +115,8 @@ export const gameBoard = (() => {
       let clickedPawn = tile.querySelector('img');
       
       if (gameFlow.checkGameState()) {
-        if (!!clickedPawn) {
-          if (!!previousPawn) {
+        if (clickedPawn) {
+          if (previousPawn) {
             clearPossibleMoves();
           }
           
@@ -124,8 +124,7 @@ export const gameBoard = (() => {
           let clickedPawnName = clickedPawn.getAttribute('data-name');
   
           let currentPawn = pawns
-              .getList()
-              [`${clickedPawnName}`];
+              .getList()[`${clickedPawnName}`];
           
           // display pawn possible moves
           if (currentPawn.getColor()
