@@ -133,5 +133,15 @@ a:hover, a:active {
   color: rgba(24, 201, 255, 0.863);
 }
 
+@keyframes fadeIn {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+@media (min-width:801px) {
+  .animation {
+    animation: fadeIn 1s;
+  }
+}
 
 

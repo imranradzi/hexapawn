@@ -25,6 +25,10 @@ export const pawn = (name, color, row, column) => {
   const pawnMove = (newRow, newColumn) => {
     pawnRow = newRow;
     pawnColumn = newColumn;
+    pawnImg.classList.add('animation');
+    setTimeout(() => {
+      pawnImg.classList.remove('animation');
+    }, 1000);
   };
 
   const calculateLegalMoves = () => {
