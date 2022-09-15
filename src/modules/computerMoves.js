@@ -6,13 +6,11 @@ const filterColoredPawns = (pawn) => {
   if (pawn.getAttribute('data-name')[0] === compColor) return true;
 }
 
-export const getMoveablePawns = () => {
-  return [...document.querySelectorAll('.tile > img')].filter(filterColoredPawns);
-}
+export const getMoveablePawns = () => [...document.querySelectorAll('.tile > img')].filter(filterColoredPawns);
 
-export const getRandomIndex = () => {
-  return Math.floor(Math.random() * getMoveablePawns.length);
-}
+
+export const getRandomIndex = () => Math.floor(Math.random() * getMoveablePawns.length);
+
 
 export const basicComputerMove = () => {
   let computerMoveableTiles = [];
@@ -23,25 +21,27 @@ export const basicComputerMove = () => {
     computerMoveableTiles = [];
     computerPawn = getMoveablePawns()[index]
     .getAttribute('data-name');
-    for (const i of pawns
+    pawns
       .getList()[computerPawn]
-      .calculateLegalMoves()) {
-        computerMoveableTiles.push(
+      .calculateLegalMoves()
+      .forEach((i) => {
+        computerMoveableTiles
+        .push(
         document
           .querySelector(
             `[data-row='${i[0]}'][data-column='${i[1]}']`
           )
-      )
-    }
+        )
+    });
 
     index = (index + 1) % getMoveablePawns().length;
   }
 
-  let computerPawnImg = document.querySelector(`[data-name='${computerPawn}']`);
+  const computerPawnImg = document.querySelector(`[data-name='${computerPawn}']`);
 
         setTimeout(() => {
           computerPawnImg.click();
-          let moveIndex = Math.floor(Math.random() * computerMoveableTiles.length);
+          const moveIndex = Math.floor(Math.random() * computerMoveableTiles.length);
           computerMoveableTiles[moveIndex].click();
         }
         , 1000)
