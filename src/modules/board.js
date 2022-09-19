@@ -1,4 +1,4 @@
-import { header, tilesNodes } from './domElements';
+import { resetButton, tilesNodes } from './domElements';
 import { pawns } from './pawns';
 import { gameFlow } from './gameFlow';
 import { changeInfo, changeScore } from './display';
@@ -191,9 +191,16 @@ export const gameBoard = (() => {
     clearPawns();
     displayPawns();
     changeInfo(`${gameFlow.checkCurrentColour()} to move`);
+    [...document.querySelectorAll('.tile > img')]
+  .forEach((el) => {
+    el.classList.add('animation');
+    setTimeout(() => {
+      el.classList.remove('animation');
+    }, 1000);
+  })
   }
 
-  header.addEventListener('click', boardReset);
+  resetButton.addEventListener('click', boardReset);
   
   return { displayPawns,
            tilesArr,

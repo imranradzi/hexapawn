@@ -4,8 +4,8 @@ export const infoDisplay = document
 export const tilesNodes = document
             .querySelectorAll('div.tile');
 
-export const header = document
-            .querySelector('header');
+export const resetButton = document
+            .querySelector('#reset-button');
 
 export const blackScore = document
             .querySelector('#black-score');

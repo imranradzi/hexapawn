@@ -25,7 +25,7 @@ header,
 
 header {
   background-color: white;
-  flex: 2;
+  flex: 1;
 }
 
 .main-container {
@@ -46,6 +46,11 @@ header {
 
 #white {
   color: white;
+}
+
+#opponent {
+  text-align: center;
+  font-size: 0.8rem;
 }
 
 .info-display {
@@ -95,8 +100,25 @@ header {
   background-color: rgba(0, 255, 255, 0.689);
 }
 
+#buttons {
+  background-color: grey;
+  flex: 0.5;
+  display: flex;
+  justify-content: center;
+  padding-bottom: 24px;
+}
+
+#buttons > img {
+  border-radius: 100%;
+}
+
+#buttons > img:hover {
+  background-color: white;
+  cursor: pointer;
+}
+
 footer {
-  flex: 1;
+  flex: 0.5;
 }
 
 footer,
