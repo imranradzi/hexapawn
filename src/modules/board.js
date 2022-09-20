@@ -30,10 +30,10 @@ export const gameBoard = (() => {
   }
 
   const displayPawns = () => {
-    let pawnList = pawns.getList();
+    const pawnList = pawns.getList();
     for (const pawn in pawns.getList()) {
 
-      let pawnTilePosition = `[data-row='${pawnList[pawn]
+      const pawnTilePosition = `[data-row='${pawnList[pawn]
         .getRow()}'][data-column='${pawnList[pawn]
         .getColumn()}']`;
 
@@ -44,11 +44,11 @@ export const gameBoard = (() => {
   }
 
   const checkWin = () => {
-    let colour = gameFlow.checkCurrentColour();
-    let allPossibleMoves = [];
+    const colour = gameFlow.checkCurrentColour();
+    const allPossibleMoves = [];
     
-    for (let pawn in pawns.getList()) {
-      let currPawn = pawns.getList()[pawn];
+    for (const pawn in pawns.getList()) {
+      const currPawn = pawns.getList()[pawn];
 
       /**
        * logic for checking if pawn
@@ -110,9 +110,9 @@ export const gameBoard = (() => {
       
       clearIndicator();
 
-      let previousPawn = pawns
+      const previousPawn = pawns
         .getList()[gameFlow.getTargetPawn()];
-      let clickedPawn = tile.querySelector('img');
+      const clickedPawn = tile.querySelector('img');
       
       if (gameFlow.checkGameState()) {
         if (clickedPawn) {
@@ -121,9 +121,9 @@ export const gameBoard = (() => {
           }
           
           tile.classList.add('selected');
-          let clickedPawnName = clickedPawn.getAttribute('data-name');
+          const clickedPawnName = clickedPawn.getAttribute('data-name');
   
-          let currentPawn = pawns
+          const currentPawn = pawns
               .getList()[`${clickedPawnName}`];
           
           // display pawn possible moves

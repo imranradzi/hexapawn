@@ -69,11 +69,11 @@ header {
   grid-template: repeat(3, 1fr) / repeat(3, 1fr);
   height: min(50vw, 50vh);
   width: min(50vw, 50vh);
-  gap: 10px;
+  gap: 0.3rem;
   margin-top: 20px;
   background-color: rgb(107, 107, 107);
   border-radius: 20px;;
-  padding: 10px;
+  padding: 0.3rem;
 }
 
 .tile {
