@@ -7,21 +7,17 @@ export const gameFlow = (() => {
   let currBlackScore = 0;
   let currWhiteScore = 0;
 
-  const getTargetTile = () => {
-    return `${targetRow}${targetColumn}`;
-  }
+  const getTargetTile = () => `${targetRow}${targetColumn}`;
   
   const changeTargetTile = (row, column) => {
     targetRow = row;
     targetColumn = column;
   }
 
-  const getTargetPawn = () => {
-    return targetPawn;
-  }
+  const getTargetPawn = () => targetPawn;
 
   const getPawnImg = (row, column) => {
-    let tile = document.querySelector(`[data-row='${row}'][data-column='${column}']`);
+    const tile = document.querySelector(`[data-row='${row}'][data-column='${column}']`);
     return tile.querySelector('img') ?
     tile
       .querySelector('img')
@@ -30,11 +26,10 @@ export const gameFlow = (() => {
 
   const changeTargetPawn = (pawn) => {
     targetPawn = pawn;
+    return 0;
   }
 
-  const checkGameState = () => {
-    return isGameRunning;
-  }
+  const checkGameState = () => isGameRunning;
 
   const changeGameState = () => {
     if (isGameRunning === true) {
@@ -44,9 +39,7 @@ export const gameFlow = (() => {
     }
   }
 
-  const checkCurrentColour = () => {
-    return currentColour;
-  }
+  const checkCurrentColour = () => currentColour;
 
   const changeColour = () => {
     if (currentColour === 'white') {
@@ -72,13 +65,9 @@ export const gameFlow = (() => {
     }
   }
 
-  const getBlackScore = () => {
-    return currBlackScore;
-  }
+  const getBlackScore = () => currBlackScore;
 
-  const getWhiteScore = () => {
-    return currWhiteScore;
-  }
+  const getWhiteScore = () => currWhiteScore;
 
   return { getTargetTile,
            changeTargetTile,

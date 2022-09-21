@@ -1,9 +1,10 @@
 import { pawns } from './pawns';
 
-let compColor = 'b';
+const compColor = 'b';
 
 const filterColoredPawns = (pawn) => {
   if (pawn.getAttribute('data-name')[0] === compColor) return true;
+  return false;
 }
 
 export const getMoveablePawns = () => [...document.querySelectorAll('.tile > img')].filter(filterColoredPawns);
