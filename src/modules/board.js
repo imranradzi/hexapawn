@@ -10,23 +10,23 @@ export const gameBoard = (() => {
   .from(tilesNodes);
 
   const clearIndicator = () => {
-    for (const tile of tilesArr) {
+    tilesArr.forEach((tile) => {
       tile.classList.remove('selected');
-    }
+    })
   }
 
   const clearPossibleMoves = () => {
-    for (const tiles of tilesArr) {
+    tilesArr.forEach((tiles) => {
       tiles.classList.remove('possible-moves');
-    }
+    })
   }
 
   const clearPawns = () => {
-    for (const tile of tilesArr) {
+    tilesArr.forEach((tile) => {
       while (tile.firstChild) {
         tile.removeChild(tile.lastChild);
       }
-    }
+    })
   }
 
   const displayPawns = () => {
@@ -73,9 +73,8 @@ export const gameBoard = (() => {
        * if other color can move
        */
       } else if (currPawn.getColor()[0] !== colour[0]) {
-          for (const i of currPawn.calculateLegalMoves()) {
-            allPossibleMoves.push(i);
-          }
+          currPawn.calculateLegalMoves()
+            .forEach(i => allPossibleMoves.push(i))
       }
     }
 
@@ -129,11 +128,12 @@ export const gameBoard = (() => {
           // display pawn possible moves
           if (currentPawn.getColor()
           === gameFlow.checkCurrentColour()) {
-            for (const i of currentPawn.calculateLegalMoves()) {
-              document
+            currentPawn.calculateLegalMoves()
+              .forEach(i => {
+                document
                 .querySelector(`[data-row='${i[0]}'][data-column='${i[1]}']`)
                 .classList.add('possible-moves');
-            }
+              })
           }
           
           // pawn eats enemy pawn
