@@ -1,5 +1,5 @@
 import { infoDisplay, blackScore, whiteScore } from './domElements';
-import { gameFlow } from './gameFlow';
+import gameFlow from './gameFlow';
 
 export const changeInfo = (text) => {
   infoDisplay.textContent = text;

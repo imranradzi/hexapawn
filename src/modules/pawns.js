@@ -1,4 +1,4 @@
-import { gameFlow } from './gameFlow';
+import gameFlow from './gameFlow';
 
 export const pawn = (name, color, row, column) => {
   const pawnName = name;

@@ -1,4 +1,4 @@
-export const gameFlow = (() => {
+const gameFlow = (() => {
   let targetRow = '';
   let targetColumn = '';
   let targetPawn = '';
@@ -83,3 +83,5 @@ export const gameFlow = (() => {
            getBlackScore,
            getWhiteScore};
 })();
+
+export default gameFlow;

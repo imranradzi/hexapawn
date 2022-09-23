@@ -1,6 +1,6 @@
 import { resetButton, tilesNodes } from './domElements';
 import { pawns } from './pawns';
-import { gameFlow } from './gameFlow';
+import gameFlow from './gameFlow';
 import { changeInfo, changeScore } from './display';
 import { basicComputerMove } from './computerMoves';
 
