@@ -82,6 +82,8 @@ export const gameBoard = (() => {
       gameFlow.changeGameState();
       return 1;
     }
+
+    return 0;
   }
 
   const endOfTurnProcesses = () => {
