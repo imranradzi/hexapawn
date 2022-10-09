@@ -30,10 +30,11 @@ header {
 
 .main-container {
   flex: 10;
-  background-color: grey;
+  background-color: rgb(30, 30, 30);
   height: 100%;
   display: flex;
   flex-wrap: wrap;
+  color: rgb(94, 94, 94);
 }
 
 #black, #white {
@@ -59,8 +60,8 @@ header {
   align-items: center;
   color: white;
   font-size: 1rem;
-  background-color: rgb(107, 107, 107);
-  border-radius: 50px;
+  background-color: rgb(59, 59, 59);
+  border-radius: 0px;
   padding: 4px;
 }
 
@@ -69,11 +70,9 @@ header {
   grid-template: repeat(3, 1fr) / repeat(3, 1fr);
   height: min(50vw, 50vh);
   width: min(50vw, 50vh);
-  gap: 0.2rem;
+  gap: 0.1rem;
   margin-top: 20px;
-  background-color: rgb(107, 107, 107);
-  border-radius: 20px;;
-  padding: 0.2rem;
+  border-radius: 0px;
 }
 
 .tile {
@@ -81,7 +80,6 @@ header {
   display: flex;
   justify-content: center;
   align-items: center;
-  border-radius: 20px;
 }
 
 .tile:nth-child(2n) {
@@ -89,7 +87,7 @@ header {
 }
 
 .tile.possible-moves {
-  background-color: rgb(42, 144, 165);
+  background-color: rgb(42, 165, 126);
 }
 
 .tile:hover {
@@ -97,11 +95,11 @@ header {
 }
 
 .tile.selected {
-  background-color: rgba(0, 255, 255, 0.689);
+  background-color: rgba(0, 225, 255, 0.689);
 }
 
 #buttons {
-  background-color: grey;
+  background-color: rgb(30, 30, 30);
   flex: 0.5;
   display: flex;
   justify-content: center;
@@ -113,7 +111,7 @@ header {
 }
 
 #buttons > img:hover {
-  background-color: white;
+  background-color: rgb(168, 168, 168);
   cursor: pointer;
 }
 
@@ -128,7 +126,8 @@ footer,
 }
 
 .links {
-  background-color: rgb(54, 54, 54);
+  
+  background-color: rgb(41, 41, 41);
   display: flex;
   justify-content: end;
   height: 100%;
