@@ -24,8 +24,8 @@ header,
 }
 
 header {
-  background-color: white;
-  flex: 1;
+  background-color: rgb(111, 111, 111);
+  flex: 0.6;
 }
 
 .main-container {
